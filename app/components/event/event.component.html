@@ -1,0 +1,85 @@
+<div class="sport-line">
+    <div class="sport-type" *ngIf="sportName">{{ sportName }} - {{ countryName }}</div>
+    <div class="right-part">
+        <div class="update-button">
+            <div class="update-text">Update</div>
+        </div>
+        <div class="select-option">
+            <select>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="event-container" *ngIf="events">
+    <div class="event-header">
+        <div class="eh-time">Time</div>
+        <div class="eh-team">Team</div>
+        <div class="eh-bettype">3 Way</div>
+        <div class="eh-bettype">Handicap</div>
+        <div class="eh-bettype">Totals</div>
+        <div class="eh-plus"></div>
+    </div>
+    <div class="event" *ngFor="let ev of events">
+        <div class="e-date">{{ ev.Date | slice: 6:19 | date: 'MMMM d, y' }}</div>
+        <div class="e-data">
+            <div class="ed-date">{{ ev.Date | slice: 6:19 | date: 'H:mm' }}</div>
+            <div class="ed-team">
+                <div>{{ ev.HomeName }}</div>
+                <div>Draw</div>
+                <div>{{ ev.GuestName }}</div>
+            </div>
+            <div class="ed-bettype" *ngFor="let bt of ev.BetTypes">
+                <div class="ed-odd" *ngFor="let odd of bt.Odds" (click)="odd.IsSelected = !odd.IsSelected" [ngClass]="{'active': odd.IsSelected}">
+                    {{ odd.OddFactor | number: '1.2-2' }}
+                </div>
+            </div>
+            <div class="ed-plus" (click)="getAdditionalOdds(ev)">+100</div>
+        </div>
+        <div class="additional-odds" *ngIf="ev.IsShowAdditionalOdds">
+            <div class="odds-block">
+                <div class="ed-bettypegroup" *ngFor="let bettypegroup of ev.BetTypeGroups">
+                    <div class="icon-bettypegroup" (click)="bettypegroup.IsOpen = !bettypegroup.IsOpen" [ngClass]="{'active': bettypegroup.IsOpen}">
+                        <div class="angle" *ngIf="!bettypegroup.IsOpen">
+                            <i class="fa fa-angle-up"></i>
+                        </div>
+                        <div class="angle" *ngIf="bettypegroup.IsOpen">
+                            <i class="fa fa-angle-down"></i>
+                        </div>
+                        <div class="ed-bettypegroup-name">{{ bettypegroup.Id }}</div>
+                    </div>
+                    <div *ngIf="bettypegroup.IsOpen">
+                        <div class="ed-bettype-content" *ngFor="let bettype of bettypegroup.BetTypes">
+
+                            <div class="ed-bettype-name">{{ bettype.Id }}</div>
+                            <div class="sort-odds">
+                                <div class="ed-bettype-odds">
+                                    <div class="ed-bettype-odds-value" *ngFor="let odd of bettype.Odds | oddColumn:0" [ngClass]="{'active': odd.IsSelected}"
+                                        (click)="odd.IsSelected = !odd.IsSelected">
+                                        {{ odd.OddFactor | number: '1.2-2' }}
+                                    </div>
+                                </div>
+                                <div class="ed-bettype-odds">
+                                    <div class="ed-bettype-odds-value" *ngFor="let odd of bettype.Odds | oddColumn:1" [ngClass]="{'active': odd.IsSelected}"
+                                        (click)="odd.IsSelected = !odd.IsSelected">
+                                        {{ odd.OddFactor | number: '1.2-2' }}
+                                    </div>
+                                </div>
+                                <div class="ed-bettype-odds">
+                                    <div class="ed-bettype-odds-value" *ngFor="let odd of bettype.Odds | oddColumn:2" [ngClass]="{'active': odd.IsSelected}"
+                                        (click)="odd.IsSelected = !odd.IsSelected">
+                                        {{ odd.OddFactor | number: '1.2-2' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

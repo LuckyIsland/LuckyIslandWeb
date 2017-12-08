@@ -1,0 +1,68 @@
+<!-- <div class="sport" *ngFor="let sport of sports">
+    <div class="sport-title" [ngClass]="{'active': sport.IsOpen}" (click)="sport.IsOpen = !sport.IsOpen">
+        <img src="../../../assets/{{sport.Id}}.png"/>
+        <div class="sport-name">{{ sport.Name }} </div>
+        <div class="sport-count">{{ sport.EventCount }}</div>
+    </div>
+    <div class="countries" *ngIf="sport.IsOpen">
+        <div class="country" *ngFor="let country of sport.Countries">
+            <div class="country-title" [ngClass]="{'active': country.IsOpen}" (click)="country.IsOpen = !country.IsOpen">
+                <div class="country-name">{{ country.Name }} </div>
+                <div class="country-count">{{ country.EventCount }}</div>
+            </div>
+            <div class="leagues" *ngIf="country.IsOpen">
+                <div class="league" *ngFor="let league of country.Leagues">
+                    <div class="league-title" [ngClass]="{'active': league.IsOpen}" (click)="league.IsOpen = !league.IsOpen">
+                        <div class="league-name">{{ league.Name }} </div>
+                        <div class="league-count">{{ league.EventCount }}</div>
+                    </div>
+                    <div class="bettypegroups" *ngIf="league.IsOpen">
+                        <div class="bettypegroup" *ngFor="let bettypegroup of league.BetTypeGroups">
+                            <div class="bettypegroup-title" [ngClass]="{'active': bettypegroup.IsOpen}">
+                                <div class="bettypegroup-name">{{ bettypegroup.Name }} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="sport-tree">
+    <div class="top-sport">
+        <div>Top Sport</div>
+    </div>
+
+    <div class="sport" *ngFor="let sport of sports">
+        <div class="sport-title" (click)="sport.IsOpen = !sport.IsOpen" [ngClass]="{'active': sport.IsOpen}">
+            <img src="../../../assets/{{sport.Id}}.png">
+            <div class="sport-title-text">
+                <div>{{ sport.Name }}</div>
+                <div>({{ sport.EventCount }})</div>
+            </div>
+        </div>
+        <div *ngIf="sport.IsOpen">
+            <div class="country" *ngFor="let country of sport.Countries">
+                <div class="country-title" (click)="country.IsOpen = !country.IsOpen" [ngClass]="{'active': country.IsOpen}">
+                    <div>{{ country.Name }}</div>
+                    <div>({{ country.EventCount }})</div>
+                </div>
+                <div *ngIf="country.IsOpen">
+                    <div class="league" *ngFor="let league of country.Leagues">
+                        <div class="league-title" (click)="league.IsOpen = !league.IsOpen" [ngClass]="{'active': league.IsOpen}">
+                            <div>{{ league.Name }}</div>
+                            <div>({{ league.EventCount }})</div>
+                        </div>
+                        <div *ngIf="league.IsOpen">
+                            <div class="bettypegroup" *ngFor="let bettypegroup of league.BetTypeGroups" 
+                                (click)="getEventOdds(league.Id, bettypegroup.Id)">
+                                <div>{{ bettypegroup.Name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
